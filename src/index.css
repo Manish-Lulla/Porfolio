@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-hand: "Caveat", cursive;
+  --font-note: "Kalam", cursive;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-flair: "Architects Daughter", cursive;
+
+  --color-paper: var(--bg-paper);
+  --color-ink: var(--text-ink);
+  
+  --color-marker-red: #E63946;
+  --color-marker-teal: #2A9D8F;
+  --color-marker-yellow: #FFD93D;
+  --color-coffee: #C9A875;
+
+  --color-chalkboard: #1A1F1A;
+  --color-chalk: #F5F5DC;
+  --color-chalk-red: #FF8B94;
+  --color-chalk-teal: #4ECDC4;
+  --color-chalk-yellow: #FFE66D;
+  --color-marker-active: #FFD93D;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-paper: #FDFCF8;
+  --text-ink: #1A1A1A;
+  --marker-alpha: 0.3;
+}
+
+.dark {
+  --bg-paper: #1A1F1A;
+  --text-ink: #F5F5DC;
+  --marker-alpha: 0.15;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html, body {
+    @apply transition-colors duration-300 bg-paper text-ink;
+    background-color: var(--bg-paper);
+    color: var(--text-ink);
+  }
+
+  body {
+    @apply font-sans;
+  }
+
+  /* Sections land cleanly below the fixed navbar when scrolled to */
+  section[id] {
+    scroll-margin-top: 120px;
+  }
+
+  .font-hand { font-family: var(--font-hand); }
+  .font-note { font-family: var(--font-note); }
+  .font-flair { font-family: var(--font-flair); }
+}
+
+/* Custom pencil cursor trail handled in JS */
+.custom-cursor {
+  cursor: none;
+}
+
+/* On touch devices, restore the default cursor */
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor {
+    cursor: auto;
+  }
+}
+
+.pencil-cursor {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+/* Paper texture overlay */
+.paper-texture {
+  position: fixed;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+  background-image: url("https://www.transparenttextures.com/patterns/notebook.png");
+  z-index: 40;
+}
+
+.dark .paper-texture {
+  opacity: 0.02;
+  filter: invert(1);
+}
+
+/* Coffee stain decoration */
+.coffee-stain {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(201, 168, 117, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* === Custom Scrollbar (Themed & Polished) === */
+
+/* Width & shape */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* ===== LIGHT MODE (default) ===== */
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+  background-color: rgba(230, 57, 70, 0.6);
+  border-radius: 20px;
+  border: 3px solid #FDFCF8;
+  background-clip: padding-box;
+  transition: background-color 0.25s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(230, 57, 70, 0.9);
+  background-clip: padding-box;
+}
+
+html::-webkit-scrollbar-thumb:active,
+body::-webkit-scrollbar-thumb:active,
+::-webkit-scrollbar-thumb:active {
+  background-color: rgba(230, 57, 70, 1);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ===== DARK MODE ===== */
+
+html.dark::-webkit-scrollbar-thumb,
+.dark html::-webkit-scrollbar-thumb,
+.dark body::-webkit-scrollbar-thumb,
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(78, 205, 196, 0.6);
+  border: 3px solid #1A1F1A;
+  background-clip: padding-box;
+}
+
+html.dark::-webkit-scrollbar-thumb:hover,
+.dark html::-webkit-scrollbar-thumb:hover,
+.dark body::-webkit-scrollbar-thumb:hover,
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(78, 205, 196, 0.9);
+  background-clip: padding-box;
+}
+
+html.dark::-webkit-scrollbar-thumb:active,
+.dark html::-webkit-scrollbar-thumb:active,
+.dark body::-webkit-scrollbar-thumb:active,
+.dark ::-webkit-scrollbar-thumb:active {
+  background-color: rgba(78, 205, 196, 1);
+  background-clip: padding-box;
+}
+
+/* ===== Firefox ===== */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(230, 57, 70, 0.6) transparent;
+}
+
+html.dark {
+  scrollbar-color: rgba(78, 205, 196, 0.6) transparent;
+}
