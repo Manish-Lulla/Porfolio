@@ -33,7 +33,7 @@ export const About = () => {
             <span className="text-sm">CGPA (B.E. IT)</span>
           </StickyNote>
           <StickyNote rotation={6} color="teal" className="-translate-y-2 md:-translate-y-4">
-            <span className="text-3xl block">20+</span>
+            <span className="text-3xl block">5+</span>
             <span className="text-sm">projects built</span>
           </StickyNote>
           <StickyNote rotation={12} color="red" className="translate-x-4 md:translate-x-8">
