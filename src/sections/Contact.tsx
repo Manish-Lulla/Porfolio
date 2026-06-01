@@ -20,60 +20,36 @@ export const Contact = () => {
     setErrorMessage('');
 
     const formData = new FormData(e.currentTarget);
-
-    if (formData.get('botcheck')) {
-      setStatus('success');
-      return;
-    }
+    if (formData.get('botcheck')) { setStatus('success'); return; }
 
     formData.append('access_key', WEB3FORMS_KEY);
-    formData.append('subject', `New portfolio message from ${formData.get('name')}`);
+    formData.append('subject', 'New portfolio message from ' + formData.get('name'));
     formData.append('from_name', 'Portfolio Contact Form');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData,
-      });
-
+      const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
       const data = await response.json();
-
       if (data.success) {
         setStatus('success');
         formRef.current?.reset();
-        
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#E63946', '#2A9D8F', '#FFD93D'],
-        });
-
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#E63946', '#2A9D8F', '#FFD93D'] });
         setTimeout(() => setStatus('idle'), 6000);
-      } else {
-        throw new Error(data.message || 'Failed to send message');
-      }
+      } else { throw new Error(data.message || 'Failed to send message'); }
     } catch (error) {
       setStatus('error');
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : 'Something went wrong. Please try again.'
-      );
+      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
       setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
   return (
     <section className="py-24 px-6 max-w-6xl mx-auto">
-      <SectionHeading doodle="heart">Let's Build Something</SectionHeading>
-      
+      <SectionHeading doodle="heart">Let&apos;s Build Something</SectionHeading>
       <div className="grid md:grid-cols-2 gap-16">
         <div className="space-y-8">
           <p className="font-note text-2xl leading-relaxed dark:text-chalk opacity-80 decoration-marker-teal decoration-4 underline-offset-8 underline">
-            Hey, if you've made it this far — thanks for reading. I just wrapped up my B.E. IT exams and I'm actively looking for internship and full-time roles in software engineering, frontend, full-stack, data, or anything where I can build, learn, and ship.
+            Hey, if you have made it this far thanks for reading. I just wrapped up my B.E. IT exams and I am actively looking for internship and full-time roles in software engineering, frontend, full-stack, data, or anything where I can build, learn, and ship.
           </p>
-          
           <div className="space-y-6 pt-8">
             <div className="flex items-center gap-4 group">
               <div className="w-12 h-12 flex items-center justify-center rounded-full bg-marker-red/10 border-2 border-marker-red/30">
@@ -101,131 +77,45 @@ export const Contact = () => {
             </div>
           </div>
         </div>
-
-        <motion.div
-           initial={{ rotate: 1 }}
-           whileHover={{ rotate: 0 }}
-           className="relative"
-        >
+        <motion.div initial={{ rotate: 1 }} whileHover={{ rotate: 0 }} className="relative">
           <div className="bg-white dark:bg-gray-800 p-8 shadow-2xl border-l-[20px] border-l-gray-200 dark:border-l-gray-700 relative">
-             <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 right-0 w-full h-[2px] bg-gray-300 -rotate-45 translate-x-12" />
-             </div>
-             
              <h3 className="font-hand text-3xl mb-8 dark:text-chalk">Drop a message</h3>
-             
              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                <input
-                  type="checkbox"
-                  name="botcheck"
-                  className="hidden"
-                  style={{ display: 'none' }}
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
-
+                <input type="checkbox" name="botcheck" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
                 <div>
                   <label className="font-note text-sm mb-2 block dark:text-gray-400">Name</label>
                   <RoughBox className="bg-gray-50 dark:bg-gray-900 p-2">
-                    <input 
-                      type="text" 
-                      name="name"
-                      required 
-                      minLength={2}
-                      disabled={status === 'sending'}
-                      className="w-full bg-transparent border-none outline-none p-2 dark:text-chalk disabled:opacity-50" 
-                      placeholder="Your name" 
-                    />
+                    <input type="text" name="name" required minLength={2} disabled={status === 'sending'} className="w-full bg-transparent border-none outline-none p-2 dark:text-chalk disabled:opacity-50" placeholder="Your name" />
                   </RoughBox>
                 </div>
-
                 <div>
                   <label className="font-note text-sm mb-2 block dark:text-gray-400">Email</label>
                   <RoughBox className="bg-gray-50 dark:bg-gray-900 p-2">
-                    <input 
-                      type="email" 
-                      name="email"
-                      required 
-                      disabled={status === 'sending'}
-                      className="w-full bg-transparent border-none outline-none p-2 dark:text-chalk disabled:opacity-50" 
-                      placeholder="example@email.com" 
-                    />
+                    <input type="email" name="email" required disabled={status === 'sending'} className="w-full bg-transparent border-none outline-none p-2 dark:text-chalk disabled:opacity-50" placeholder="example@email.com" />
                   </RoughBox>
                 </div>
-
                 <div>
                   <label className="font-note text-sm mb-2 block dark:text-gray-400">Message</label>
                   <RoughBox className="bg-gray-50 dark:bg-gray-900 p-2">
-                    <textarea 
-                      name="message"
-                      required 
-                      minLength={10}
-                      disabled={status === 'sending'}
-                      className="w-full bg-transparent border-none outline-none p-2 min-h-[120px] resize-none dark:text-chalk disabled:opacity-50" 
-                      placeholder="What's on your mind?" 
-                    />
+                    <textarea name="message" required minLength={10} disabled={status === 'sending'} className="w-full bg-transparent border-none outline-none p-2 min-h-[120px] resize-none dark:text-chalk disabled:opacity-50" placeholder="What is on your mind?" />
                   </RoughBox>
                 </div>
-                
-                <button 
-                  type="submit" 
-                  className="w-full group disabled:cursor-not-allowed"
-                  disabled={status === 'sending'}
-                >
-                  <RoughBox 
-                    fill={status === 'sending' ? "rgba(150, 150, 150, 0.1)" : "rgba(230, 57, 70, 0.1)"} 
-                    className="p-4 font-hand text-2xl font-bold dark:text-chalk transition-opacity"
-                  >
+                <button type="submit" className="w-full group disabled:cursor-not-allowed" disabled={status === 'sending'}>
+                  <RoughBox fill={status === 'sending' ? 'rgba(150, 150, 150, 0.1)' : 'rgba(230, 57, 70, 0.1)'} className="p-4 font-hand text-2xl font-bold dark:text-chalk transition-opacity">
                     <div className="flex items-center justify-center gap-3">
-                      {status === 'sending' ? (
-                        <>
-                          <span>Sending</span>
-                          <Loader2 className="animate-spin" size={22} />
-                        </>
-                      ) : (
-                        <>
-                          <span>Send it</span>
-                          <Send className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" size={22} />
-                        </>
-                      )}
+                      {status === 'sending' ? (<><span>Sending</span><Loader2 className="animate-spin" size={22} /></>) : (<><span>Send it</span><Send className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" size={22} /></>)}
                     </div>
                   </RoughBox>
                 </button>
-
                 {status === 'error' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-marker-red font-note text-sm text-center"
-                  >
-                    ❌ {errorMessage}
-                  </motion.div>
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-marker-red font-note text-sm text-center">{errorMessage}</motion.div>
                 )}
              </form>
-             
              {status === 'success' && (
-               <motion.div 
-                 initial={{ opacity: 0, scale: 0.8 }}
-                 animate={{ opacity: 1, scale: 1 }}
-                 className="absolute inset-0 bg-paper dark:bg-chalkboard flex flex-col items-center justify-center z-10 p-6"
-               >
-                 <motion.div 
-                   initial={{ scale: 0 }}
-                   animate={{ scale: 1 }}
-                   transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
-                   className="text-6xl mb-4"
-                 >
-                   ✅
-                 </motion.div>
-                 <p className="font-note text-2xl dark:text-chalk text-center">
-                   Got it! I'll get back to you soon ✌️
-                 </p>
-                 <button 
-                   onClick={() => setStatus('idle')} 
-                   className="mt-8 font-hand text-marker-red underline hover:text-marker-red/70 transition-colors"
-                 >
-                   send another
-                 </button>
+               <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="absolute inset-0 bg-paper dark:bg-chalkboard flex flex-col items-center justify-center z-10 p-6">
+                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: 'spring', stiffness: 200 }} className="text-6xl mb-4">OK</motion.div>
+                 <p className="font-note text-2xl dark:text-chalk text-center">Got it! I will get back to you soon</p>
+                 <button onClick={() => setStatus('idle')} className="mt-8 font-hand text-marker-red underline hover:text-marker-red/70 transition-colors">send another</button>
                </motion.div>
              )}
           </div>
