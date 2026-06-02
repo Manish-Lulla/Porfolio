@@ -52,9 +52,9 @@
 
   body {
     @apply font-sans;
+    overflow-x: hidden;
   }
 
-  /* Sections land cleanly below the fixed navbar when scrolled to */
   section[id] {
     scroll-margin-top: 120px;
   }
@@ -64,12 +64,10 @@
   .font-flair { font-family: var(--font-flair); }
 }
 
-/* Custom pencil cursor trail handled in JS */
 .custom-cursor {
   cursor: none;
 }
 
-/* On touch devices, restore the default cursor */
 @media (hover: none) and (pointer: coarse) {
   .custom-cursor {
     cursor: auto;
@@ -85,7 +83,6 @@
   transform: translate(-50%, -50%);
 }
 
-/* Paper texture overlay */
 .paper-texture {
   position: fixed;
   inset: 0;
@@ -100,7 +97,6 @@
   filter: invert(1);
 }
 
-/* Coffee stain decoration */
 .coffee-stain {
   position: absolute;
   width: 150px;
@@ -110,7 +106,6 @@
   pointer-events: none;
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -119,17 +114,13 @@
     scroll-behavior: auto !important;
   }
 }
-/* === Custom Scrollbar (Themed & Polished) === */
 
-/* Width & shape */
 html::-webkit-scrollbar,
 body::-webkit-scrollbar,
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
-
-/* ===== LIGHT MODE (default) ===== */
 
 html::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track,
@@ -165,8 +156,6 @@ body::-webkit-scrollbar-thumb:active,
   background: transparent;
 }
 
-/* ===== DARK MODE ===== */
-
 html.dark::-webkit-scrollbar-thumb,
 .dark html::-webkit-scrollbar-thumb,
 .dark body::-webkit-scrollbar-thumb,
@@ -192,7 +181,6 @@ html.dark::-webkit-scrollbar-thumb:active,
   background-clip: padding-box;
 }
 
-/* ===== Firefox ===== */
 html {
   scrollbar-width: thin;
   scrollbar-color: rgba(230, 57, 70, 0.6) transparent;
@@ -200,4 +188,52 @@ html {
 
 html.dark {
   scrollbar-color: rgba(78, 205, 196, 0.6) transparent;
+}
+
+@media (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 1px solid transparent;
+  }
+
+  button, a {
+    min-height: 44px;
+  }
+}
+
+
+/* Mobile-specific fixes */
+@media (max-width: 640px) {
+  body, main {
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  section {
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  /* Kill all rotation utilities on mobile to prevent overflow */
+  .rotate-1, .-rotate-1, .rotate-2, .-rotate-2, .rotate-3, .-rotate-3 {
+    transform: rotate(0deg) !important;
+  }
+
+  /* Section headings - prevent edge clipping */
+  h2 {
+    word-break: break-word;
+  }
+}
+
+/* Ensure broken images don't show ugly icons */
+img {
+  font-size: 0;
 }

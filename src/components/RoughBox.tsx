@@ -35,35 +35,47 @@ export const RoughBox: React.FC<RoughBoxProps> = ({
     const svg = svgRef.current;
     const container = containerRef.current;
     const rc = rough.svg(svg);
-    
-    // Clear previous children
-    while (svg.firstChild) {
-      svg.removeChild(svg.firstChild);
-    }
 
-    const { width, height } = container.getBoundingClientRect();
-    svg.setAttribute('width', width.toString());
-    svg.setAttribute('height', height.toString());
+    const draw = () => {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
 
-    const options = {
-      stroke: color,
-      strokeWidth,
-      roughness,
-      bowing,
-      fill,
-      fillStyle,
+      const { width, height } = container.getBoundingClientRect();
+      if (width === 0 || height === 0) return;
+
+      svg.setAttribute('width', width.toString());
+      svg.setAttribute('height', height.toString());
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+      const isSmall = width < 200 || height < 60;
+      const effectiveRoughness = isSmall ? Math.min(roughness, 1) : roughness;
+      const effectiveBowing = isSmall ? Math.min(bowing, 1) : bowing;
+
+      const options = {
+        stroke: color,
+        strokeWidth,
+        roughness: effectiveRoughness,
+        bowing: effectiveBowing,
+        fill,
+        fillStyle,
+      };
+
+      const pad = 4;
+      let node: SVGElement;
+      if (type === 'rectangle') {
+        node = rc.rectangle(pad, pad, Math.max(width - pad * 2, 1), Math.max(height - pad * 2, 1), options);
+      } else if (type === 'circle') {
+        node = rc.ellipse(width / 2, height / 2, Math.max(width - pad * 2, 1), Math.max(height - pad * 2, 1), options);
+      } else {
+        node = rc.line(0, height / 2, width, height / 2, options);
+      }
+      svg.appendChild(node);
     };
 
-    let node: SVGElement;
-    if (type === 'rectangle') {
-      node = rc.rectangle(2, 2, width - 4, height - 4, options);
-    } else if (type === 'circle') {
-      node = rc.ellipse(width / 2, height / 2, width - 4, height - 4, options);
-    } else {
-      node = rc.line(0, height / 2, width, height / 2, options);
-    }
+    draw();
 
-    svg.appendChild(node);
+    const ro = new ResizeObserver(draw);
+    ro.observe(container);
+    return () => ro.disconnect();
   }, [type, color, strokeWidth, roughness, bowing, fill, fillStyle]);
 
   return (
@@ -75,8 +87,8 @@ export const RoughBox: React.FC<RoughBoxProps> = ({
     >
       <svg
         ref={svgRef}
-        className="absolute inset-0 pointer-events-none overflow-visible"
-        style={{ zIndex: -1 }}
+        className="absolute inset-0 pointer-events-none"
+        style={{ zIndex: -1, overflow: 'hidden' }}
       />
       <div className="relative z-10 w-full h-full">
         {children}

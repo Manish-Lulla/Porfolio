@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RoughNotation } from 'react-rough-notation';
 import { useInView } from 'motion/react';
 import { Doodle } from './Doodle';
@@ -15,8 +15,8 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ children, doodle
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div ref={ref} className={cn("flex items-center gap-4 mb-12", className)}>
-      <h2 className="text-4xl md:text-5xl font-hand dark:text-chalk">
+    <div ref={ref} className={cn("flex items-center gap-4 mb-12 px-1", className)}>
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-hand dark:text-chalk">
         <RoughNotation
           type="highlight"
           show={isInView}
@@ -28,9 +28,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ children, doodle
         </RoughNotation>
       </h2>
       {doodle && (
-        <Doodle 
-          type={doodle} 
-          className="w-10 h-10 text-marker-red dark:text-chalk-red animate-pulse" 
+        <Doodle
+          type={doodle}
+          className="w-8 h-8 sm:w-10 sm:h-10 text-marker-red dark:text-chalk-red animate-pulse flex-shrink-0"
         />
       )}
     </div>
