@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { RoughBox } from '../components/RoughBox';
 import { Doodle } from '../components/Doodle';
 import { Polaroid } from '../components/Polaroid';
-import { StickyNote } from '../components/StickyNote';
 
 const phrases = [
   "I build web apps.",
@@ -83,7 +82,7 @@ export const Hero = () => {
             >
               <RoughBox
                 fill="rgba(230, 57, 70, 0.15)"
-                className="px-5 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-lg text-marker-red dark:text-chalk-red"
+                className="px-5 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-lg text-marker-red dark:text-chalk-red text-center"
                 color="#E63946"
                 strokeWidth={3}
               >
@@ -97,11 +96,11 @@ export const Hero = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto block"
             >
               <RoughBox
                 fill="rgba(42, 157, 143, 0.15)"
-                className="px-5 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-lg text-marker-teal dark:text-chalk-teal"
+                className="px-5 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-lg text-marker-teal dark:text-chalk-teal text-center"
                 color="#2A9D8F"
                 strokeWidth={3}
               >
